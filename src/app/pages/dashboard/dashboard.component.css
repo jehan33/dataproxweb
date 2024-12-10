@@ -1,0 +1,43 @@
+.dashborad-table-main {
+   color: black;
+}
+.main-title {
+   margin: 20px;
+}
+
+.db-source-area {
+   background: white;
+   padding: 12px;
+   margin: 20px;
+   border: 1px solid #ccc;
+   box-shadow: 0px 0px 5px 3px #ccc;
+   border-radius: 0.375rem
+}
+.db-source-area:hover {
+   cursor: pointer;
+   border: 1px solid #ccc;
+   box-shadow: 0px 0px 5px 3px #8c8c8c;
+}
+
+.db-icon {
+   padding: 8px;
+}
+.db-name {
+   padding: 5px;
+   margin: 5px;
+   border-radius: 4px;
+}
+.db-icon img {
+   width: 150px;
+   height: 150px;
+}
+.add-data-source-area {
+   background: white;
+   padding: 20px;
+}
+.selected-db {
+   padding: 5px 10px;
+   border-radius: 4px;
+   background: #0d6efd;
+   color: white;
+}

@@ -1,0 +1,60 @@
+<div class="profile-main">
+  <div class="table-responsive">
+      <div class="table-wrapper">
+          <div class="table-title">
+              <div class="row mb-20">
+                  <div class="col-sm-8"><h2>Profiles <b>Details</b></h2></div>
+                  <div class="col-sm-4">
+                      <button type="button" *ngIf="displayAddProfile === actions.INITIAL" (click)="showAddProfile()" class="btn btn-primary add-new"><i class="fa fa-plus"></i> Add New Profile</button>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="loginService.message | async as message" class="alert alert-success" role="alert"> {{message}} </div>
+          <div *ngIf="displayAddProfile === actions.ADD || displayAddProfile === actions.UPDATE"  class="add-profile-area">
+          <form [formGroup]="profileForm">
+              <div class="mb-3">
+                  <input id="id" type="hidden" class="form-control"  formControlName="ProfileId">
+                </div>
+              <div class="mb-3">
+                  <label for="profile-name" class="form-label">Profile Name </label>
+                  <input id="profile-name" type="text" class="form-control"  formControlName="ProfileName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="rule-name" class="form-label">Select Rule</label>
+                  <div  *ngFor="let rule of rules; let i = index">
+                    <label>
+                     <input id="rule-name-{{rule.RuleName}}" type="checkbox" [checked]="rule.ischecked"  [value]="rule.RuleName" (change)="onCheckChange($event)"> 
+                      {{ rule.RuleName }}
+                    </label>
+                  </div>
+                  <!-- <input id="rule-name" type="checkbox" class="form-control"  formControlName="RuleName" required> -->
+                </div>
+                  <p>Complete the form to enable button.</p>
+                  <button class="btn btn-primary" (click)="onSubmit(profileForm.value, displayAddProfile)" type="submit" [disabled]="!profileForm.valid">{{ displayAddProfile === actions.ADD ? 'Submit' : 'Update'}}</button>
+            </form>
+          </div>
+            <br/>
+            <table class="table table-striped table-bordered table-hover" *ngIf="displayAddProfile === actions.INITIAL">
+              <thead>
+                <tr>
+                  <th>Profile Name</th>
+                  <th>Selected Rules</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let profile of profilesList; index as i">
+                    <td>{{profile.ProfileName}}</td>
+                    <td>{{ profile.RuleName }}</td>
+                      <td>
+                          <a class="edit" (click)="updateUser(profile)"  title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                          <a class="delete" (click)="deleteUser(profile?.ProfileId)" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>     
+
+

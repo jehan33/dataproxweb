@@ -1,0 +1,42 @@
+<form #serviceForm="ngForm" >
+    <div class="row search-row">
+        <div class="col-md-3">
+            <label for="searchTerm" class="form-label">Full text search: </label>
+          </div>
+          <div class="col-md-6">
+            <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="service.searchTerm"/>
+            <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-primary" [disabled]="!service.searchTerm" (click)="resetSearch(serviceForm)">clear search</button>
+          </div>
+    </div>
+    <div class="row table-responsive">
+        <table class="table table-striped">
+        <thead>
+        <tr id="heading_area">
+            <th class="column_heading" id="{{heading}}" *ngFor="let heading of tableHeaders" scope="col" (click)="onSort(heading, direction = !direction)">{{heading}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of tabledata$ | async">
+            <td class="column_data"  *ngFor="let heading of tableHeaders">
+            <ngb-highlight [result]="data[heading]" [term]="service.searchTerm"></ngb-highlight>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    
+        <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+            [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+    
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+            <option [ngValue]="2">2 items per page</option>
+            <option [ngValue]="4">4 items per page</option>
+            <option [ngValue]="6">6 items per page</option>
+        </select>
+        </div>
+    </div>
+  </form>

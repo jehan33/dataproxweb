@@ -1,0 +1,55 @@
+<div class="data-set-main">
+    <h2>Load Data <b>Details</b></h2>
+    <div *ngIf="!tableData"  class="flex-row add-data-set-area">
+      <form class="row g-3" [formGroup]="dataSetForm">
+          <div class="col-md-1">
+            <label for="data-source" class="form-label">Data Source:</label>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="data-source"  formControlName="datasource" 
+            #selected (change)="selectedDB(selected.value)"
+            required>
+                <option value="null" disabled selected> Select Data Source </option>
+                  <option 
+                    *ngFor="let datasource of listOfDataSource"
+                        [value]="datasource?.id" 
+                        > {{ datasource?.connection?.Database }}
+                    </option>
+                </select>
+          </div>
+          <div class="col-md-1 text-center">
+            <label for="profile" class="form-label">Profile:</label>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="profile"  formControlName="profile" required>
+                <option value="null" disabled selected> Select Profile </option>
+                <option 
+                    *ngFor="let profile of profilesList"
+                        [value]="profile.ProfileId" 
+                        > {{ profile?.ProfileName }}
+                    </option>
+                </select>
+          </div>
+          <div class="col-md-1 text-center">
+            <label for="data-source" class="form-label">Table:</label>
+          </div>
+          <div class="col-md-3">
+            <select [disabled]="!dataSetForm.get('datasource')?.value" class="form-select" id="table"  formControlName="table" required>
+                <option value="null" disabled selected> Select Table </option>
+                <option 
+                    *ngFor="let table of tablesList"
+                        [value]="table" 
+                        > {{ table }}
+                    </option>
+                </select>
+          </div>
+          
+        <div class="col-md-12">
+        <button class="btn btn-primary" (click)="onSubmit(dataSetForm.value, displayData)" type="submit" [disabled]="!dataSetForm.valid">Load Data</button>
+        </div>
+      </form>
+    </div>
+    <div class="table-data" *ngIf="tableData" >
+     <app-ngbd-table-complete [tableDataList]="tableData"></app-ngbd-table-complete>
+    </div>
+</div>

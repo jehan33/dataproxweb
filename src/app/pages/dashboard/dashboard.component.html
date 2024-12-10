@@ -1,0 +1,107 @@
+<div class="dashborad-main">
+    <div class="flex-row">
+        <h2 class="main-title">{{displayAddDataSource === actions.INITIAL ? 'Select' : 'Add' }} Data Source</h2>
+        <div class="d-flex align-content-start flex-wrap" *ngIf="!!listDatabases && displayAddDataSource === actions.INITIAL">
+            <div *ngFor="let database of listDatabases" class="db-source-area" (click)="showAddDataSource(database)">
+                <div class="db-icon text-center">
+                    <img src="{{ '../../../assets/logos/'+database.logoname.replace('.jpg', '.png') }}" alt="{{ database.DataTypeName }}" fill>
+                    <!-- <h6 class="db-name text-bg-dark">{{ database.DataTypeName }}</h6> -->
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!listDatabases">
+            <div class="db-icon text-center">
+                <img ngSrc="../../../assets/logos/nodb.jpeg" alt="" fill>
+                <!-- <h6 class="db-name text-bg-dark">No DB</h6> -->
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loginService.message | async as message" class="alert alert-success" role="alert"> {{message}} </div>
+    <div class="flex-row">
+        <div *ngIf="displayAddDataSource === actions.ADD || displayAddDataSource === actions.UPDATE"  class="add-data-source-area">
+        <form class="row g-3" [formGroup]="dataSourceForm">
+            <div class="mb-3 col-md-11">
+                <h5>Database Type Selected: <span class="selected-db">{{ dataSourceForm.get('database_type')?.value }} </span></h5>
+                <input id="DataTypeID" type="hidden" class="form-control"  formControlName="DataTypeID">
+                <input id="database_type" type="hidden" class="form-control"  formControlName="database_type" required>
+              </div>
+              <div class="mb-3 col-md-1">
+                <button class="btn btn-primary" (click)="backToDatabaseSource()">Back</button>
+              </div>
+              <h5>Connection:</h5>
+              <div class="mb-3 col-md-6">
+                <label for="Database" class="form-label">Database </label>
+                <input id="Database" type="text" class="form-control"  formControlName="Database" required>
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="Host" class="form-label">Host </label>
+                <input id="Host" type="text" class="form-control"  formControlName="Host" required>
+              </div>
+              <div class="mb-3 col-md-2">
+                <label for="Port" class="form-label">Port </label>
+                <input id="Port" type="text" class="form-control"  formControlName="Port" required>
+              </div>
+              
+              <div class="mb-3 col-md-6">
+                <label for="Username" class="form-label">Username </label>
+                <input id="Username" type="text" class="form-control"  formControlName="Username" required>
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="Password" class="form-label">Password </label>
+                <input id="Password" type="password" class="form-control"  formControlName="Password" required>
+              </div>
+              <div class="mb-3">
+                <p>Complete the form to enable button.</p>
+                <button class="btn btn-primary col-md-4" (click)="onSubmit(dataSourceForm.value, displayAddDataSource)" type="submit" [disabled]="!dataSourceForm.valid">{{ displayAddDataSource === actions.ADD ? 'Submit' : 'Update'}}</button>
+                </div>
+          </form>
+        </div>
+          <br/>
+    </div>
+   
+    <div class="flex-row" *ngIf="displayAddDataSource === actions.INITIAL">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8"><h3>List of <b>Data Source</b></h3></div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                </div>
+                <div class="dashborad-table-main">
+                <table class="table table-bordered table-fixed table-hover">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Database Type</th>
+                            <th colspan="5" class="text-center">Connection
+                                
+                            </th>
+                            <th rowspan="2">Actions</th>
+                        </tr>
+                        <tr>
+                            <th>Database</th>
+                            <th>Host</th>
+                            <th>Password</th>
+                            <th>Port</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listOfDataSource; index as i">
+                            <td>{{  item.database_type }}</td>
+                            <td>{{  item.connection.Database }}</td>
+                            <td>{{  item.connection.Host }}</td>
+                            <td>{{  item.connection.Password }}</td>
+                            <td>{{  item.connection.Port }}</td>
+                            <td>{{  item.connection.Username }}</td>
+                            <td>
+                                <a class="edit" (click)="updateDataSource(item)"  title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a class="delete" (click)="deleteDataSource(item.id)" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,17 @@
+
+<div class="data-prox-layoutmain">
+    <div class="data-prox-main d-flex flex-row flex-grow">
+        <div class="data-prox-left text-bg-dark">
+            <app-wizard-header></app-wizard-header>
+        </div>
+        <div class="data-prox-right">
+            <ng-container [ngSwitch]="route">
+            <app-dashboard *ngSwitchCase="'home'"></app-dashboard>
+            <app-data-load *ngSwitchCase="'data-load'"></app-data-load>
+            <app-user-management *ngSwitchCase="'user-management'"></app-user-management>
+            <app-profiles *ngSwitchCase="'profiles'"></app-profiles>
+            <app-rules *ngSwitchCase="'rules'"></app-rules>
+        </ng-container>
+        </div>
+    </div>
+</div>
